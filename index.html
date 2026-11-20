@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>互动视频编码台 · 带宽操纵与期限调度</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>互动视频编码台 <span class="sub">真实编码 · 实际出包 · 期限调度</span></h1>
+  <div id="codecBadge" class="badge">检测编码器…</div>
+</header>
+
+<main>
+  <section class="left">
+    <div class="views">
+      <figure>
+        <figcaption>源画面（确定性生成，4.0s 处切镜）</figcaption>
+        <canvas id="srcCanvas" width="640" height="360"></canvas>
+      </figure>
+      <figure>
+        <figcaption>解码端实际呈现（仅按如期到达的包）</figcaption>
+        <canvas id="decCanvas" width="640" height="360"></canvas>
+      </figure>
+    </div>
+
+    <div class="transport">
+      <button id="playBtn" disabled>▶ 播放</button>
+      <input id="seekBar" type="range" min="0" max="8" step="0.001" value="0" disabled>
+      <span id="clock" class="mono">0.000 / 0.000 s</span>
+      <select id="speedSel">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+      </select>
+    </div>
+
+    <div class="chartWrap">
+      <div class="chartTitle">对齐时间轴：带宽 / 发送队列 / 逐帧出包（点击定位）</div>
+      <canvas id="chart" width="960" height="220"></canvas>
+      <div id="legend" class="legend">
+        <span><i class="sw ok"></i>如期呈现</span>
+        <span><i class="sw exp"></i>错过期限</span>
+        <span><i class="sw brk"></i>参考链断裂</span>
+        <span><i class="sw ovf"></i>缓冲溢出丢弃</span>
+        <span><i class="sw skip"></i>策略性弃帧</span>
+        <span><i class="sw key"></i>关键帧</span>
+      </div>
+    </div>
+  </section>
+
+  <aside class="right">
+    <section class="panel">
+      <h2>① 发送带宽剖面（可拖拽改写）</h2>
+      <canvas id="profile" width="320" height="96"></canvas>
+      <div class="row btns">
+        <button id="presetA">剖面A·切镜前蓄量</button>
+        <button id="presetB">剖面B·切镜时断流</button>
+        <button id="normalize">归一到目标均值</button>
+      </div>
+      <div class="row">
+        <label>目标平均带宽 <b id="avgLabel">800</b> kbps</label>
+        <input id="avgKbps" type="range" min="200" max="3000" step="50" value="800">
+      </div>
+      <div class="hint" id="profileAvg">当前剖面均值：—</div>
+    </section>
+
+    <section class="panel">
+      <h2>② 调度策略</h2>
+      <label class="radio"><input type="radio" name="strat" value="fps" checked>
+        <b>保帧率降画质</b>——每帧必交，按码量预算动态抬/降 QP</label>
+      <label class="radio"><input type="radio" name="strat" value="quality">
+        <b>保细节等下一时隙</b>——QP 固定，预算不足则弃帧等下一时隙</label>
+      <div class="row">
+        <label>固定 QP 档（保细节） <b id="qpLabel">45%</b></label>
+        <input id="qpFixed" type="range" min="10" max="90" step="5" value="45">
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>③ 期限与缓冲</h2>
+      <div class="row">
+        <label>播放期限预算 <b id="budgetLabel">500</b> ms</label>
+        <input id="budgetMs" type="range" min="100" max="1000" step="25" value="500">
+      </div>
+      <div class="row">
+        <label>发送缓冲容量 <b id="capLabel">400</b> KB</label>
+        <input id="capKb" type="range" min="100" max="2000" step="50" value="400">
+      </div>
+      <button id="runBtn" class="run" disabled>▶ 运行仿真</button>
+      <div id="runStatus" class="hint">—</div>
+    </section>
+
+    <section class="panel">
+      <h2>④ 核验与指标</h2>
+      <div id="stats" class="stats"></div>
+      <div id="violations" class="viol"></div>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  需要支持 WebCodecs 的浏览器（Chrome / Edge / Safari）。建议通过
+  <code>python3 -m http.server</code> 或任意静态服务访问。同一随机种子生成源画面，多次运行输入一致，可对照不同策略/剖面。
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

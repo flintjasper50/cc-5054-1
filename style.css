@@ -1,0 +1,92 @@
+:root {
+  --bg: #101418;
+  --panel: #1a2027;
+  --panel2: #141a20;
+  --line: #2a333d;
+  --fg: #dbe4ec;
+  --dim: #8b98a5;
+  --accent: #4da3ff;
+  --ok: #46c46a;
+  --exp: #f0524a;
+  --brk: #ff9f2e;
+  --ovf: #b95cf0;
+  --skip: #7c8794;
+  --key: #41c8d4;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0 14px 20px;
+  background: var(--bg); color: var(--fg);
+  font: 14px/1.5 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+.mono { font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+header {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 12px 2px 10px; border-bottom: 1px solid var(--line);
+}
+h1 { font-size: 19px; margin: 0; }
+h1 .sub { font-size: 12px; color: var(--dim); font-weight: normal; margin-left: 8px; }
+.badge {
+  font-size: 12px; padding: 3px 10px; border-radius: 10px;
+  background: var(--panel); border: 1px solid var(--line); color: var(--accent);
+}
+main {
+  display: grid; grid-template-columns: minmax(0, 1fr) 348px;
+  gap: 14px; margin-top: 12px;
+}
+.views { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+figure { margin: 0; }
+figcaption { font-size: 12px; color: var(--dim); margin-bottom: 4px; }
+canvas { display: block; background: #000; }
+#srcCanvas, #decCanvas { width: 100%; border: 1px solid var(--line); border-radius: 4px; }
+
+.transport {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 10px; padding: 8px 10px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+}
+.transport input[type=range] { flex: 1; }
+button {
+  background: #23303d; color: var(--fg); border: 1px solid var(--line);
+  border-radius: 5px; padding: 5px 12px; cursor: pointer; font-size: 13px;
+}
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: default; }
+button.run { width: 100%; padding: 8px; font-size: 14px; background: #1d3a5f; border-color: #2f5d8f; }
+
+.chartWrap { margin-top: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+.chartTitle { font-size: 12px; color: var(--dim); margin-bottom: 4px; }
+#chart { width: 100%; border: 1px solid var(--line); border-radius: 4px; cursor: crosshair; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--dim); margin-top: 6px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.sw.ok { background: var(--ok); } .sw.exp { background: var(--exp); }
+.sw.brk { background: var(--brk); } .sw.ovf { background: var(--ovf); }
+.sw.skip { background: var(--skip); } .sw.key { background: var(--key); }
+
+.right { display: flex; flex-direction: column; gap: 10px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+.panel h2 { font-size: 13px; margin: 0 0 8px; color: var(--accent); font-weight: 600; }
+.row { margin: 8px 0; }
+.row label { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); margin-bottom: 2px; }
+.row label b { color: var(--fg); }
+.row input[type=range] { width: 100%; }
+.btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.btns button { font-size: 12px; padding: 4px 8px; }
+.radio { display: block; font-size: 12.5px; margin: 6px 0; color: var(--fg); }
+.radio b { color: var(--accent); }
+.hint { font-size: 12px; color: var(--dim); margin-top: 6px; }
+#profile { width: 100%; border: 1px solid var(--line); border-radius: 4px; cursor: crosshair; background: var(--panel2); }
+
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; font-size: 12px; }
+.stat { background: var(--panel2); border: 1px solid var(--line); border-radius: 5px; padding: 6px 8px; }
+.stat .k { color: var(--dim); font-size: 11px; }
+.stat .v { font-size: 15px; font-weight: 600; margin-top: 1px; }
+.stat.bad .v { color: var(--exp); }
+.stat.good .v { color: var(--ok); }
+.stat.wide { grid-column: 1 / -1; }
+.viol { margin-top: 8px; font-size: 12px; max-height: 120px; overflow-y: auto; }
+.viol .ok-line { color: var(--ok); }
+.viol .bad-line { color: var(--ovf); }
+
+footer { margin-top: 14px; font-size: 12px; color: var(--dim); }
+footer code { background: var(--panel); padding: 1px 5px; border-radius: 3px; }
