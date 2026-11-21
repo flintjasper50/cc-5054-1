@@ -1,0 +1,37 @@
+:root {
+  --bg: #101418;
+  --panel: #1a2027;
+  --panel2: #141a20;
+  --line: #2a333d;
+  --fg: #dbe4ec;
+  --dim: #8b98a5;
+  --accent: #4da3ff;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0 16px 24px;
+  background: var(--bg); color: var(--fg);
+  font: 14px/1.5 "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+header { padding: 14px 2px; border-bottom: 1px solid var(--line); }
+h1 { font-size: 19px; margin: 0; }
+h1 .sub { font-size: 12px; color: var(--dim); font-weight: normal; margin-left: 8px; }
+h2 { font-size: 13px; margin: 0 0 10px; color: var(--accent); font-weight: 600; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.span2 { grid-column: 1 / -1; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+.row { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+.row.wrap { flex-wrap: wrap; }
+.chk { font-size: 13px; color: var(--fg); display: inline-flex; align-items: center; gap: 6px; }
+select, input, button {
+  background: #23303d; color: var(--fg); border: 1px solid var(--line);
+  border-radius: 5px; padding: 5px 10px; font-size: 13px;
+}
+button { cursor: pointer; }
+button:hover { border-color: var(--accent); }
+.mono { font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+.small { font-size: 12px; line-height: 1.7; }
+canvas { width: 100%; background: var(--panel2); border: 1px solid var(--line); border-radius: 4px; display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--dim); margin-top: 6px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; }
+b { color: #ffd166; }

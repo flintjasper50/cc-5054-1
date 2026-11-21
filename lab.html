@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>编码台实验室 · 预算决策 / 反馈归属 / 发送记账</title>
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<header>
+  <h1>编码台实验室 <span class="sub">预算决策 · 编码反馈归属 · 发送缓冲记账（三模块解耦）</span></h1>
+</header>
+
+<main class="grid">
+  <section class="panel span2">
+    <h2>① 场景与记账模式</h2>
+    <div class="row wrap">
+      <select id="scenario">
+        <option value="twin">等字节画面·仅引用关系不同</option>
+        <option value="reorder">重排返回·一画面拆多包</option>
+        <option value="modes">预留预算 vs 逐笔反馈（双账对照）</option>
+        <option value="replay">真实包重驱动控制器</option>
+        <option value="debt">同占用·实际欠账不同</option>
+        <option value="resume">两种状态恢复发送</option>
+      </select>
+      <label class="chk"><input type="radio" name="mode" value="reserved" checked> 按提交画面预留</label>
+      <label class="chk"><input type="radio" name="mode" value="feedback"> 按反馈逐笔校正</label>
+      <label class="chk"><input type="checkbox" id="reorder"> 编码器重排返回</label>
+      <label class="chk">回调次序
+        <select id="cbOrder">
+          <option value="arrive-first">引用链→反馈</option>
+          <option value="feedback-first">反馈→引用链</option>
+        </select>
+      </label>
+      <button id="run">运行场景</button>
+    </div>
+    <div class="row wrap">
+      <label class="chk">拖动带宽到 <input id="bwKbps" type="number" value="200" min="0" step="50" style="width:80px"> kbps
+        <button id="applyBw">在当前时钟应用（旧帧仍在途）</button>
+      </label>
+      <button id="dupFb">对首帧重复一次反馈</button>
+      <button id="pauseBacklog">暂停（backlog 积压态）</button>
+      <button id="pauseDrain">暂停（drained 排空态）</button>
+      <button id="resume">从快照恢复发送</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>② 控制面板：下一帧预算与未结算包</h2>
+    <div id="controlView" class="mono small">运行后显示。</div>
+  </section>
+
+  <section class="panel">
+    <h2>③ 记账核验（发送账只扣一次）</h2>
+    <div id="ledgerView" class="mono small"></div>
+  </section>
+
+  <section class="panel span2">
+    <h2>④ 逐帧故事：估计 / 实耗 / 传输占用</h2>
+    <div class="row">
+      <label>选择帧 <select id="frameSel"></select></label>
+    </div>
+    <canvas id="story" width="920" height="200"></canvas>
+    <div id="storyText" class="mono small"></div>
+  </section>
+
+  <section class="panel span2">
+    <h2>⑤ 帧与包时间轴</h2>
+    <canvas id="timeline" width="920" height="240"></canvas>
+    <div id="legend" class="legend"></div>
+  </section>
+
+  <section class="panel span2">
+    <h2>⑥ 收端连续解码 / 丢弃与归属日志</h2>
+    <div id="decodeView" class="mono small"></div>
+  </section>
+</main>
+
+<script type="module" src="lab.js"></script>
+</body>
+</html>
